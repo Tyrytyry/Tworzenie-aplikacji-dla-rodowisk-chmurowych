@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Tworzenie-aplikacji-dla-rodowisk-chmurowych.iml" filepath="$PROJECT_DIR$/.idea/Tworzenie-aplikacji-dla-rodowisk-chmurowych.iml" />
-      <module fileurl="file://$PROJECT_DIR$/chmury/demo.iml" filepath="$PROJECT_DIR$/chmury/demo.iml" />
     </modules>
   </component>
 </project>
