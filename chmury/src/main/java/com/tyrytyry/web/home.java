@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
 public class home {
 
 
@@ -18,8 +17,4 @@ public class home {
     }
 
 
-    @GetMapping(value = "/FuckYou")
-    public String FuckYou() {
-        return "FuckYou!!!!!!!!!!";
-    }
 }

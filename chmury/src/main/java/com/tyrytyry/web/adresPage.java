@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class adresPage {
 
 
-    @GetMapping("/adres")
-    public String pageEnd() {
-        //
-        // przesłanie przez użytkownika informacji do wysyłḱi
-        //
-        return "adres";
-    }
+ //  @GetMapping("/adres")
+ //  public String pageEnd() {
+ //      //
+ //      // przesłanie przez użytkownika informacji do wysyłḱi
+ //      //
+ //      return "adres";
+ //  }
 
-    @GetMapping("/cart")
-    public String cart() {
-    //
-    //przesłanie przez użytkownika informacji do karty kredytowej
-    //
-        return "adres";
-    }
+ //  @GetMapping("/cart")
+ //  public String cart() {
+ //  //
+ //  //przesłanie przez użytkownika informacji do karty kredytowej
+ //  //
+ //      return "adres";
+ //  }
 
 }
