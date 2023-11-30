@@ -1,7 +1,8 @@
 package com.tyrytyry.adress;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 @RestController
 @RequestMapping("/api/adresy-dostawy")
 public class AdresDostawyController {
@@ -17,5 +18,16 @@ public class AdresDostawyController {
     public AdresDostawy zapiszAdresDostawy(@RequestBody AdresDostawy adresDostawy) {
         return adresDostawyService.zapiszAdresDostawy(adresDostawy);
     }
+
+    @GetMapping
+    public List<AdresDostawy> pobierzWszystkieAdresyDostawy() {
+        return adresDostawyService.pobierzWszystkieAdresyDostawy();
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> usunAdresDostawy(@PathVariable Long id) {
+        adresDostawyService.usunAdresDostawy(id);
+        return ResponseEntity.ok().build();
+    }
 }
+
 
