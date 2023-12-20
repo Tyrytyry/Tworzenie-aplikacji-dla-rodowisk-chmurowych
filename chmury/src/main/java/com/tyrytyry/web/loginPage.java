@@ -28,12 +28,12 @@ public class loginPage {
         return "users";
     }
 
-    @GetMapping("/register")
-    public String register(Model model) {
-        //
-        // tworzenie nowego użytkownika
-        //
-        return "register";
-    }
+//    @GetMapping("/register")
+//    public String register(Model model) {
+//        //
+//        // tworzenie nowego użytkownika
+//        //
+//        return "register";
+//    }
 
 }
