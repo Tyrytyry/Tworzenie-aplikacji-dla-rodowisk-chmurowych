@@ -38,6 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/api/categories/*").permitAll()
+                .antMatchers("/api/categories/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/api/login").permitAll()
@@ -46,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/api/adresy-dostawy").permitAll()
 //                .antMatchers("/api/adresy-dostawy/**").permitAll()
 //                .antMatchers("/*").permitAll()
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtil))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
