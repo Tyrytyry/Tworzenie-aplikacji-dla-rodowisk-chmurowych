@@ -1,22 +1,23 @@
 package com.tyrytyry.model;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.NotNull;
-import javax.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="users")
 public class User {
 
-   private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Column(nullable=false)
-    private String username;
 
     @NotNull
     @Column(nullable=false, unique=true)
@@ -26,24 +27,20 @@ public class User {
     @Column(nullable=false)
     private String password;
 
-    public String getUsername(){
-        return username;
-    }
-    public String getPassword(){
-        return password;
-    }
-    public String getemail(){
-        return email;
-    }
-    public void setPassword(String password) {
+    @NotNull
+    @Column(nullable=false)
+    private String firstName;
+
+    @NotNull
+    @Column(nullable=false)
+    private String lastName;
+
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
     }
-   @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(
-            name="users_roles",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-    private List<Role> roles = new ArrayList<>();
-
 
 }
+
+
+
