@@ -41,7 +41,7 @@ public class SecurityConfig  {
                 .requestMatchers("/rest/auth/**").permitAll()
                 .requestMatchers("/register").permitAll()
                 .requestMatchers("/register/*").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -18,8 +18,6 @@ public class UserService {
     public User register(User user) {
 
         User user2 = userRepository.findByEmail(user.getEmail());
-        System.out.println(user.getEmail());
-        System.out.println(user2);
         if (user2 != null) {
 
                 throw new IllegalArgumentException("Username is already taken");
