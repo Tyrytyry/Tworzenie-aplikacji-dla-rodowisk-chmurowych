@@ -14,7 +14,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/rest/auth")
@@ -51,4 +54,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
+
+
+ //  @GetMapping("/users")
+ //  public String users(Model model) {
+ //      List<UserDto> users = userService.findAllUsers();
+ //      model.addAttribute("users", users);
+ //      return "users";
+ //  }
 }
