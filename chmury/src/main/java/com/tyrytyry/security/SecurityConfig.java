@@ -38,6 +38,7 @@ public class SecurityConfig  {
 
         http.csrf().disable()
                 .authorizeRequests()
+
                 .requestMatchers("/rest/auth/**").permitAll()
                 .requestMatchers("/register").permitAll()
                 .requestMatchers("/register/*").permitAll()
