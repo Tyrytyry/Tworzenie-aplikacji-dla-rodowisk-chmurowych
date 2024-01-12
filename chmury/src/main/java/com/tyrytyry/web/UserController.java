@@ -25,9 +25,11 @@ public class UserController {
 
 
     @ResponseBody
+    @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public User hello(@RequestBody User user) {
-        return userService.register(user);
+    public User register(@RequestBody User user) {
+        User registeredUser = userService.register(user);
+        return registeredUser;
     }
 
 

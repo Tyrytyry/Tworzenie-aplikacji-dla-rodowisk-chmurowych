@@ -43,26 +43,25 @@ public class ItemController {
     @PostMapping("/add-item")
     public String createItem(@ModelAttribute("item") Item item,
      //                        @RequestParam("image") MultipartFile file,
-                             @RequestParam("days") int days,
-                             Model model) {
+                             @RequestParam("days") int days) {
         MultipartFile file = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         item.setOwner(username);
         item.setBuyer("Kupujący");
 
-        if(file != null)
-       if (!file.isEmpty()) {
-           try {
-               String fileName = UUID.randomUUID().toString() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
-               String imageUrl = "produkty/" + fileName;
-               Path targetPath = Path.of(UPLOAD_DIR, fileName);
-               Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-               item.setImageUrl(imageUrl);
-           } catch (IOException e) {
-         //      return "Wystąpił błąd podczas przesyłania i zapisywania zdjęcia: " + e.getMessage();
-           }
-       }
+//        if(file != null)
+//       if (!file.isEmpty()) {
+//           try {
+//               String fileName = UUID.randomUUID().toString() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
+//               String imageUrl = "produkty/" + fileName;
+//               Path targetPath = Path.of(UPLOAD_DIR, fileName);
+//               Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+//               item.setImageUrl(imageUrl);
+//           } catch (IOException e) {
+//         //      return "Wystąpił błąd podczas przesyłania i zapisywania zdjęcia: " + e.getMessage();
+//           }
+//       }
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime expirationTime = currentTime.plusDays(days);
         item.setTime(expirationTime);
@@ -73,6 +72,37 @@ public class ItemController {
         return "ok";
     }
 
+
+
+
+
+    @PostMapping("/updateItem")
+    public String updateItem(@RequestParam("id") Long id,
+                                   @RequestParam("sum") double sum) {
+        Item item = itemService.getItemById(id);
+        String owner = item.getOwner();
+        String buyer = item.getBuyer();
+        double currentPrice = item.getPrice();
+        LocalDateTime itemTime = item.getTime();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LocalDateTime currentTime = LocalDateTime.now();
+        String username = authentication.getName();
+
+        if (sum > currentPrice && !username.equals(owner) && !username.equals(buyer) && currentTime.isBefore(itemTime)) {
+            item.setPrice(sum);
+            item.setBuyer(username);
+            itemService.updateItem(item);
+
+        } else {
+            return "no";
+        }
+
+        return "ok";
+    }
+
+
+
+
     @PostMapping("/delete-item")
     public String deleteItem(@RequestParam("itemId") Long itemId) {
         Item itemToDelete = itemService.getItemById(itemId);
@@ -82,6 +112,10 @@ public class ItemController {
 
         return "item-list";
     }
+
+
+
+
 
 
 

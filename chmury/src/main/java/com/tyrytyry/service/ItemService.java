@@ -34,7 +34,13 @@ public class ItemService {
 
 
 
+    public void updateItem(Item item) {
+        // Tutaj umieść logikę aktualizacji rekordu w bazie danych
+        // Na podstawie dostępnej implementacji dostępu do bazy danych
 
+        // Przykładowa implementacja dla bazy danych SQL z wykorzystaniem JPA/Hibernate:
+        itemRepository.save(item);
+    }
 
 
 
