@@ -15,12 +15,6 @@ public class UserController {
         this.userService = userService;
     }
 
-  //  @PostMapping("/register")
-   // public User register(@RequestBody User user) {
-   //     return userService.register(user);
-   // }
-
-
     @ResponseBody
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public User hello(@RequestBody User user) {
