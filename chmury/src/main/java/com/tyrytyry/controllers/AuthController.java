@@ -54,12 +54,4 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
-
-
- //  @GetMapping("/users")
- //  public String users(Model model) {
- //      List<UserDto> users = userService.findAllUsers();
- //      model.addAttribute("users", users);
- //      return "users";
- //  }
 }

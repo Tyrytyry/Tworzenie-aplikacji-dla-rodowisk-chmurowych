@@ -2,23 +2,18 @@ package com.tyrytyry.web;
 
 import com.tyrytyry.model.Item;
 import com.tyrytyry.service.ItemService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 @RestController
 public class ItemController {
@@ -29,20 +24,22 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+
     @GetMapping("/showItems")
     public List<Item> getAllItems(Model model) {
 
         List<Item> items = itemService.getAllItems();
 
-       // model.addAttribute("items", items);
+        // model.addAttribute("items", items);
         return items;
     }
 
-    private static final String UPLOAD_DIR = "/home/tyrytyry/obszarRoboczy/Tworzenie-aplikacji-dla-rodowisk-chmurowych";
+    private static final String UPLOAD_DIR = "classpath:/uploads";
+
 
     @PostMapping("/add-item")
     public String createItem(@ModelAttribute("item") Item item,
-     //                        @RequestParam("image") MultipartFile file,
+                             //                        @RequestParam("image") MultipartFile file,
                              @RequestParam("days") int days,
                              Model model) {
         MultipartFile file = null;
@@ -51,25 +48,25 @@ public class ItemController {
         item.setOwner(username);
         item.setBuyer("Kupujący");
 
-        if(file != null)
-       if (!file.isEmpty()) {
-           try {
-               String fileName = UUID.randomUUID().toString() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
-               String imageUrl = "produkty/" + fileName;
-               Path targetPath = Path.of(UPLOAD_DIR, fileName);
-               Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-               item.setImageUrl(imageUrl);
-           } catch (IOException e) {
-         //      return "Wystąpił błąd podczas przesyłania i zapisywania zdjęcia: " + e.getMessage();
-           }
-       }
+//        if(file != null)
+//       if (!file.isEmpty()) {
+//           try {
+//               String fileName = UUID.randomUUID().toString() + "-" + StringUtils.cleanPath(file.getOriginalFilename());
+//               String imageUrl = "produkty/" + fileName;
+//               Path targetPath = Path.of(UPLOAD_DIR, fileName);
+//               Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+//               item.setImageUrl(imageUrl);
+//           } catch (IOException e) {
+//         //      return "Wystąpił błąd podczas przesyłania i zapisywania zdjęcia: " + e.getMessage();
+//           }
+//       }
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime expirationTime = currentTime.plusDays(days);
         item.setTime(expirationTime);
         System.out.println("Zapisuję produkt w bazie");
         Item createdItem = itemService.createItem(item);
 
-      //  model.addAttribute("createdItem", createdItem);
+        //  model.addAttribute("createdItem", createdItem);
         return "ok";
     }
 
@@ -83,6 +80,29 @@ public class ItemController {
         return "item-list";
     }
 
+    @PostMapping("/updateItem")
+    public String updateItem(@RequestBody Map<String, String> requestParams) {
+        Long itemId = Long.parseLong(requestParams.get("itemId"));
+        double sum = Double.parseDouble(requestParams.get("sum"));
 
+        Item item = itemService.getItemById(itemId);
+        String owner = item.getOwner();
+        String buyer = item.getBuyer();
+        double currentPrice = item.getPrice();
+        LocalDateTime itemTime = item.getTime();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LocalDateTime currentTime = LocalDateTime.now();
+        String username = authentication.getName();
 
+        if (sum > currentPrice && !username.equals(owner) && !username.equals(buyer) && currentTime.isBefore(itemTime)) {
+            item.setPrice(sum);
+            item.setBuyer(username);
+            itemService.updateItem(item);
+
+        } else {
+            return "no";
+        }
+
+        return "ok";
+    }
 }
