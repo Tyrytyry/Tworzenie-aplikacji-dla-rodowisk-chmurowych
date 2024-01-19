@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="../css/login.css"/>
+  <script src="../js/login.js" defer></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body id="home">
+<header class="header">
+  <div class="leftt">
+    <a onclick="goToCustomPath('/login')" id="login">Zaloguj się!</a>
+  </div>
+  <div class="RAJ container">
+    <a onclick="goToCustomPath('/home')"> <img src="../img/AukcjeDomowe.png" onclick="goToCustomPath('/home')" alt="Aukcje Domowe" width="300" height="100"></a>
+    <nav>
+      <ul class="menu">
+        <li><a class="menubutton" onclick="goToCustomPath('/category?category=Ubrania')" >Ubrania</a></li>
+        <li><a class="menubutton" onclick="goToCustomPath('/category?category=Meble')" >Meble</a></li>
+        <li><a class="menubutton" onclick="goToCustomPath('/category?category=Akcesoria')" >Akcesoria</a></li>
+        <li><a class="menubutton" onclick="goToCustomPath('/category?category=Biżuteria)" >Biżuteria</a></li>
+        <li><a class="menubutton" onclick="goToCustomPath('/home')" >O nas</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="log">
+    <a onclick="goToCustomPath('/basket')"> <img src="../img/wozek.png" onclick="goToCustomPath('/basket')" alt="buttonpng" width="15" height="15"></a>
+    <a onclick="goToCustomPath('/basket')">0,00zł</a>
+  </div>
+</header>
+<br>
+<br>
+<div class="centr">
+<div class="login-panel" id="loginPanel">
+  <div class="social-login">
+    <p>Lub zaloguj się za pomocą:</p>
+    <ul>
+      <li>
+        <a href="#" class="facebook-login">
+          Kontynuuj z Facebook
+        </a>
+      </li>
+      <li>
+        <a href="#" class="apple-login">
+          Kontynuuj z Apple
+        </a>
+      </li>
+      <li>
+        <a href="#" class="google-login black-text">
+          Kontynuuj z Google
+        </a>
+      </li>
+    </ul>
+  </div>
+  <h2>Zaloguj się</h2>
+  <form class="login-form" method="post" role="form" action="/login">
+    <div class="form-group mb-3">
+      <label class="control-label">Email</label>
+      <input type="text" id="email" name="email" class="form-control" placeholder="Enter email address" />
+    </div>
+    <div class="form-group mb-3">
+      <label class="control-label">Password</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" />
+    </div>
+    <div class="form-group mb-3">
+      <button type="submit" class="btn btn-primary" onclick="login(event)">Submit </button>
+    </div>
+  </form>
+  <br>
+  <button class="lol" type="submit"onclick="changeForm()">ZAREJESTRUJ SIĘ DO RAJ ROŚLIN</button>
+</div>
+
+
+
+  <div class="login-panel" id="registerPanel" style="display:none;">
+    <div class="social-login">
+      <p>Lub zaloguj się za pomocą:</p>
+      <ul>
+        <li>
+          <a href="#" class="facebook-login">
+            Kontynuuj z Facebook
+          </a>
+        </li>
+        <li>
+          <a href="#" class="apple-login">
+            Kontynuuj z Apple
+          </a>
+        </li>
+        <li>
+          <a href="#" class="google-login black-text">
+            Kontynuuj z Google
+          </a>
+        </li>
+      </ul>
+    </div>
+    <h2>Załóż konto </h2>
+    <form method="post" role="form" action="/login/save" class="login-form">
+      <div class="form-group mb-3">
+        <label class="form-label">First Name</label>
+        <input class="form-control" id="firstName" name="firstName" placeholder="Enter first name"  type="text"/>
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Last Name</label>
+        <input class="form-control" id="lastName" name="lastName" placeholder="Enter last name" type="text"/>
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Email</label>
+        <input class="form-control" id="email1" name="email1" placeholder="Enter email address" type="email"/>
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Password</label>
+        <input class="form-control" id="password1"  name="password1" placeholder="Enter password" type="password"/>
+      </div>
+      <div class="form-group mb-3">
+        <button type="submit" class="btn btn-primary" onclick="register(event)">Register </button>
+      </div>
+    </form>
+    <br>
+    <button class="lol" type="submit" onclick="changeForm()" >MASZ KONTO SIĘ DO RAJ ROŚLIN?</button>
+  </div>
+  </div>
+<br>
+<br>
+
+</body>
+
+<br>
+<br>
+<header class="header">
+  <footer class="footer">
+    <div class="card-footer">
+      <ul>
+        <li>
+          <a onclick="goToCustomPath('/home')"> <img src="../img/AukcjeDomowe.png" onclick="goToCustomPath('/home')" alt="Aukcje Domowe" width="250" height="100"></a>
+        </li>
+        <li>
+          <p>
+            O nas <br>
+          </p>
+        </li>
+      </ul>
+      <ul>
+        <li class="title-list">Informacje</li>
+        <li><a onclick="goToCustomPath('/category?category=Ubrania')">Ubrania</a></li>
+        <li><a onclick="goToCustomPath('/category?category=Meble')">Meble</a></li>
+        <li><a onclick="goToCustomPath('/category?category=Akcesoria')">Akcesoria</a></li>
+        <li><a onclick="goToCustomPath('/category?category=Biżuteria)">Biżuteria</a></li>
+      </ul>
+      <ul>
+        <li class="title-list">Moje Konto</li>
+        <li><a onclick="goToCustomPath('/login')">Zaloguj</a></li>
+        <li><a onclick="goToCustomPath('/login')">Założ konto</a></li>
+
+      </ul>
+      <ul class="shops">
+        <li class="title-list ">Kontakt</li>
+        <li>hello@aukcjedomowe.pl</li>
+        <li>Ul.pokoju243  <br>
+          31-567 Kraków</li>
+        <li>+48 22 567 88 76 39</li>
+        <li>Odwiedź nas:</li>
+      </ul>
+    </div>
+
+    <p class="by-name">
+      &copy; Prawa autorskie 2023 Aukcje Domowe Wszelkie prawa zastrzeżone.
+    </p>
+  </footer>
+</header>
+
+
+</div>
+</body>
+</html>
