@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  postgres:
+    build:
+      context: ./DB
+      dockerfile: Dockerfile
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: 12345678
+    ports:
+      - "5433:5432"
+    networks:
+      - rest
+    volumes:
+      - dataPostgres:/var/lib/postgresql/data
+
+  rest:
+    build:
+      context: ./chmury
+      dockerfile: Dockerfile
+    container_name: rest2
+    networks:
+      - rest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  node_app:
+    build: ./GUI
+    container_name: chmury
+    ports:
+      - "8081:80"
+    networks:
+      - rest
+
+networks:
+  rest:
+
+volumes:
+  dataPostgres:
