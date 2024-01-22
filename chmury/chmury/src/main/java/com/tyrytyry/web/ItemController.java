@@ -1,7 +1,13 @@
 package com.tyrytyry.web;
 
+import com.tyrytyry.data.UserRepository;
 import com.tyrytyry.model.Item;
+import com.tyrytyry.model.User;
+import com.tyrytyry.service.BasketService;
 import com.tyrytyry.service.ItemService;
+
+import com.tyrytyry.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -18,10 +24,24 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.tyrytyry.service.ItemService.filterProductsByCategory;
+import static com.tyrytyry.service.ItemService.filterProductsHead;
+
 @RestController
 public class ItemController {
 
+
+    @Autowired
+    private BasketService basketService;
+
+
     private final ItemService itemService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
@@ -64,40 +84,11 @@ public class ItemController {
         LocalDateTime expirationTime = currentTime.plusDays(days);
         item.setTime(expirationTime);
         System.out.println("Zapisuję produkt w bazie");
-        Item createdItem = itemService.createItem(item);
+        itemService.createItem(item);
 
       //  model.addAttribute("createdItem", createdItem);
         return "ok";
     }
-
-
-
-
-
-//    @PostMapping("/updateItem")
-//    public String updateItem(@RequestParam("id") Long id,
-//                                   @RequestParam("sum") double sum) {
-//        Item item = itemService.getItemById(id);
-//        String owner = item.getOwner();
-//        String buyer = item.getBuyer();
-//        double currentPrice = item.getPrice();
-//        LocalDateTime itemTime = item.getTime();
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        LocalDateTime currentTime = LocalDateTime.now();
-//        String username = authentication.getName();
-//
-//        if (sum > currentPrice && !username.equals(owner) && !username.equals(buyer) && currentTime.isBefore(itemTime)) {
-//            item.setPrice(sum);
-//            item.setBuyer(username);
-//            itemService.updateItem(item);
-//
-//        } else {
-//            return "no";
-//        }
-//
-//        return "ok";
-//    }
-
 
 
 
@@ -111,20 +102,23 @@ public class ItemController {
         return "item-list";
     }
 
+
+    ////// przenieść większość funkcji do service
     @PostMapping("/updateItem")
     public String updateItem(@RequestBody Map<String, String> requestParams) {
         Long itemId = Long.parseLong(requestParams.get("itemId"));
         double sum = Double.parseDouble(requestParams.get("sum"));
-
         Item item = itemService.getItemById(itemId);
         String owner = item.getOwner();
         String buyer = item.getBuyer();
+        /////////////////// testy
+        String oldbuyer = item.getBuyer();
+        /////////////////// testy
         double currentPrice = item.getPrice();
         LocalDateTime itemTime = item.getTime();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LocalDateTime currentTime = LocalDateTime.now();
         String username = authentication.getName();
-
         if (sum > currentPrice && !username.equals(owner) && !username.equals(buyer) && currentTime.isBefore(itemTime)) {
             item.setPrice(sum);
             item.setBuyer(username);
@@ -133,12 +127,28 @@ public class ItemController {
         } else {
             return "no";
         }
-
+        /////////////////// testy
+        User user = userRepository.findByEmail(oldbuyer);
+        userService.addItemToUser(user.getId(), itemId);
+        /////////////////// testy
         return "ok";
     }
 
 
+    @GetMapping("/category")
+    public List<Item> getProductByCategory(@RequestParam("category") String category) {
 
+        if(category == "head")
+        {
+            List<Item> allItems = basketService.getAllItems();
+            List<Item> filteredProducts = filterProductsHead(allItems, category);
+            return filteredProducts;
+        }
+
+        List<Item> allItems = basketService.getAllItems();
+        List<Item> filteredProducts = filterProductsByCategory(allItems, category);
+        return filteredProducts;
+    }
 
 
 }

@@ -5,6 +5,7 @@ import com.tyrytyry.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,22 +32,55 @@ public class ItemService {
 
 
 
-
-
-
     public void updateItem(Item item) {
-        // Tutaj umieść logikę aktualizacji rekordu w bazie danych
-        // Na podstawie dostępnej implementacji dostępu do bazy danych
-
-        // Przykładowa implementacja dla bazy danych SQL z wykorzystaniem JPA/Hibernate:
         itemRepository.save(item);
     }
-
-
 
 
     public Item getItemById(Long itemId) {
         Optional<Item> itemOptional = itemRepository.findById(itemId);
         return itemOptional.orElse(null);
     }
+
+
+
+    public static List<Item> filterProductsByCategory(List<Item> productList, String category) {
+        List<Item> filteredList = new ArrayList<>();
+        System.out.println(category);
+        System.out.println("filterProductsByCategory");
+        for (Item item : productList) {
+            String productCategory = item.getCategory();
+            if (productCategory != null && productCategory.equals(category)) {
+                filteredList.add(item);
+            }
+        }
+
+        for (Item product : filteredList) {
+            System.out.println("ID: " + product.getId());
+            System.out.println("Name: " + product.getName());
+            System.out.println("Price: " + product.getPrice());
+            System.out.println("Image Path: " + product.getImageUrl());
+            System.out.println("Category: " + product.getCategory());
+            System.out.println("-----------------------");
+        }
+
+        return filteredList;
+    }
+
+
+    public static List<Item> filterProductsHead(List<Item> productList, String category) {
+        List<Item> filteredList = new ArrayList<>();
+        int count = 0;
+        for (Item item : productList) {
+            filteredList.add(item);
+            count++;
+            if (count >= 4) {
+                break;
+            }
+        }
+        return filteredList;
+    }
+
+
+
 }

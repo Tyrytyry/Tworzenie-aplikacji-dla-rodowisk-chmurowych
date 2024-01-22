@@ -16,15 +16,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
-
     public Long getUserIdByEmail(String email) {
         User user = userRepository.findByEmail(email);
         return (user != null) ? user.getId() : null;
     }
-
-
-
 
 
 
@@ -45,11 +40,9 @@ public class UserService {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user != null && !user.getStringList().contains(itemId)) {
-            user.getStringList().add(itemId); // Dodaj ID nowego przedmiotu do listy użytkownika
+            user.getStringList().add(itemId);
             userRepository.save(user);
         } else {
-            // Możesz obsłużyć sytuację, gdy użytkownik już ma przypisany ten ID (np. rzucenie wyjątku, zwrócenie odpowiedniego komunikatu itp.)
-            // Na przykład:
             throw new RuntimeException("Użytkownik już ma przypisany przedmiot o ID: " + itemId);
         }
     }
@@ -58,11 +51,9 @@ public class UserService {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user != null && user.getStringList().contains(itemId)) {
-            user.getStringList().remove(itemId); // Usuń ID przedmiotu z listy użytkownika
+            user.getStringList().remove(itemId);
             userRepository.save(user);
         } else {
-            // Możesz obsłużyć sytuację, gdy użytkownik nie ma przypisanego tego ID (np. rzucenie wyjątku, zwrócenie odpowiedniego komunikatu itp.)
-            // Na przykład:
             throw new RuntimeException("Użytkownik nie ma przypisanego przedmiotu o ID: " + itemId);
         }
     }
@@ -72,7 +63,7 @@ public class UserService {
 
         for (User user : users) {
             if (user.getStringList().contains(itemId)) {
-                user.getStringList().remove(itemId); // Usuń ID przedmiotu z listy użytkownika
+                user.getStringList().remove(itemId);
                 userRepository.save(user);
             }
         }
@@ -86,7 +77,6 @@ public class UserService {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user != null) {
-            // Zwróć listę identyfikatorów przedmiotów przypisanych do użytkownika
             return user.getStringList();
         } else {
             throw new RuntimeException("Użytkownik o ID " + userId + " nie istnieje.");
