@@ -1,12 +1,12 @@
 package com.tyrytyry.web;
 
+import org.springframework.ui.Model;
 import com.tyrytyry.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -52,19 +52,6 @@ public class basketController {
 
         return buyerItems;
     }
-
-
-    @GetMapping("/useritems")
-    public List<Item> useritem() {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        List<Item> useritems = basketService.getUpdatedItem(username);
-
-        return useritems;
-    }
-
-
 
 
 

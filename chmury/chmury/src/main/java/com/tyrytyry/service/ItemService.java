@@ -32,17 +32,6 @@ public class ItemService {
 
 
 
-    public void updateItem(Item item) {
-        itemRepository.save(item);
-    }
-
-
-    public Item getItemById(Long itemId) {
-        Optional<Item> itemOptional = itemRepository.findById(itemId);
-        return itemOptional.orElse(null);
-    }
-
-
 
     public static List<Item> filterProductsByCategory(List<Item> productList, String category) {
         List<Item> filteredList = new ArrayList<>();
@@ -68,19 +57,12 @@ public class ItemService {
     }
 
 
-    public static List<Item> filterProductsHead(List<Item> productList, String category) {
-        List<Item> filteredList = new ArrayList<>();
-        int count = 0;
-        for (Item item : productList) {
-            filteredList.add(item);
-            count++;
-            if (count >= 4) {
-                break;
-            }
-        }
-        return filteredList;
+
+
+
+
+    public Item getItemById(Long itemId) {
+        Optional<Item> itemOptional = itemRepository.findById(itemId);
+        return itemOptional.orElse(null);
     }
-
-
-
 }

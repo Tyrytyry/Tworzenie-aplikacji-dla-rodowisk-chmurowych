@@ -34,13 +34,12 @@ public class AuthController {
     }
 
     @ResponseBody
-    @CrossOrigin
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResponseEntity login(@RequestBody LoginReq loginReq)  {
+
         try {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
-            System.out.println(authentication.getName());
             String email = authentication.getName();
             User user = new User(email,"");
             String token = jwtUtil.createToken(user);

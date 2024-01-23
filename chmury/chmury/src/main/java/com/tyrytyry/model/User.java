@@ -40,12 +40,6 @@ public class User {
         this.password = password;
     }
 
-    @ElementCollection
-    @CollectionTable(name = "user_item", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "item_id")
-    private List<Long> stringList;
-
 }
-
 
 
