@@ -5,7 +5,8 @@ import wozekImage from '../img/wozek.png';
 import AukcjeDomowe from '../img/AukcjeDomowe.png'; 
 import dama from '../img/dama.png'; 
 import fotel from '../img/fotel.png'; 
-
+import { submitPayment } from '../js/basket';
+import { goToCustomPath } from '../js/basket';
 const MoneyHTML = () => (
 
 <html>
@@ -19,23 +20,23 @@ const MoneyHTML = () => (
 <body id="home">
 <header class="header">
     <div class="leftt">
-        <a onclick="goToCustomPath('/login')">Zaloguj się!</a>
+        <a onClick={() => goToCustomPath('/login')}>Zaloguj się!</a>
     </div>
     <div class="RAJ container">
-        <a href="/home"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="300" height="100" /></a>
+        <a href="/"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="300" height="100" /></a>
         <nav>
             <ul class="menu">
-					<li><a class="menubutton" onclick="goToCustomPath('/category?category=Ubrania')" >Ubrania</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Meble')" >Meble</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Akcesoria')" >Akcesoria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Biżuteria)" >Biżuteria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/home')" >O nas</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
             </ul>
         </nav>
     </div>
     <div class="log">
         <a href="/basket"> <img src={wozekImage} alt="buttonpng" width="15" height="15" /></a>
-		<a onclick="/basket">0,00zł</a>
+        <a onClick={() =>goToCustomPath("/basket")}>0,00zł</a>
     </div>
 </header>
 
@@ -43,18 +44,18 @@ const MoneyHTML = () => (
 <br/>
 <br/>
 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginRight: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Twój koszyk</p>
-  </div>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Dostawa i płatność</p>
-  </div>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginLeft: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Gotowe</p>
-  </div>
+    <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginRight: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Twój koszyk</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
+    <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Dostawa i płatność</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
+    <div style={{ backgroundColor: 'white', width: '200px', height: '10px', marginLeft: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Gotowe</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
 </div>
 <br/>
 <br/>
@@ -63,29 +64,29 @@ const MoneyHTML = () => (
 <div class="container">
   <div class="left">
 
-    <form method="POST" action="/orders">
+<form id="paymentForm">
+    <h3>Płatność kartą</h3>
+	
+	
+	<label for="ID">ID: </label>
+    <input type="text" name="ID" id="ID"/>
+    <br/>
+	
+    <label for="ccNumber">Numer karty kredytowej: </label>
+    <input type="text" name="ccNumber" id="ccNumber"/>
+    <br/>
 
-      <div>
-        <span class="validationError">
-        BŁĄÐ
-        </span>
-      </div>
+    <label for="ccExpiration">Data ważności: </label>
+    <input type="text" name="ccExpiration" id="ccExpiration"/>
+    <br/>
 
-      <h3>Płatność kartą</h3>
-      <label for="ccNumber">Numer karty kredytowej #: </label>
-      <input type="text" name="ccNumber"/>
-      <br/>
+    <label for="ccCVV">Kod CVV: </label>
+    <input type="text" name="ccCVV" id="ccCVV"/>
+    <br/>
 
-      <label for="ccExpiration">Data ważności: </label>
-      <input type="text" name="ccExpiration"/>
-      <br/>
+    <button type="button" onClick={() =>onclick=submitPayment()} >Płacę</button>
 
-      <label for="ccCVV">Kod CVV: </label>
-      <input type="text" name="ccCVV"/>
-      <br/>
-
-      <input type="submit" value="Submit order"/>
-    </form>
+</form>
 
   </div>
   <div class="right">
@@ -108,7 +109,7 @@ const MoneyHTML = () => (
     <div class="card-footer">
       <ul>
         <li>
-          <a href="/home"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="250" height="100"/></a>
+          <a href="/"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="250" height="100"/></a>
         </li>
         <li>
           <p>

@@ -1,5 +1,5 @@
 
-        function goToCustomPath(path) {
+      export function goToCustomPath(path) {
             var baseUrl = window.location.protocol + "//" + window.location.host;
             var customUrl = baseUrl + path;
             window.location.href = customUrl;
@@ -8,7 +8,7 @@
 
 var counter = 1;
 
-function addProductBox(id, name, price, owner, buyer, imageUrl) {
+export function addProductBox(id, name, price, owner, buyer, imageUrl, elem) {
   var quantity = 1;
   var totalPrice = price;
 
@@ -35,16 +35,83 @@ var productHTML = `
 </div>
 `;
 
-  document.getElementById("someElementId2").innerHTML += productHTML;
+  document.getElementById(elem).innerHTML += productHTML;
 
     var priceElement = document.getElementById(`price-${counter}`);
     priceElement.textContent = price.toFixed(2);
   counter++;
 
-  calculateTotal();
+  //calculateTotal();
 }
 
-function addProductBox2(id, name, price, owner, buyer, imageUrl) {
+
+
+
+
+
+export function submitPayment() {
+    // Pobierz dane z formularza
+	const ID = document.getElementById('ID').value;
+    const ccNumber = document.getElementById('ccNumber').value;
+    const ccExpiration = document.getElementById('ccExpiration').value;
+    const ccCVV = document.getElementById('ccCVV').value;
+    const token = localStorage.getItem('token');
+
+    // Sprawdź, czy wszystkie pola są wypełnione
+    if (!ccNumber || !ccExpiration || !ccCVV) {
+        alert('Wszystkie pola muszą być wypełnione.');
+        return;
+    }
+
+    const paymentData = {
+		ID: ID,
+        ccNumber: ccNumber,
+        ccExpiration: ccExpiration,
+        ccCVV: ccCVV
+    };
+
+    // Wysyłka danych na endpoint
+    fetch('http://localhost:8080/card/zapiszCard', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify(paymentData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Błąd podczas przesyłania płatności');
+        }
+        return response.text();
+    })
+    .then(data => {
+        // Obsługa odpowiedzi z serwera po udanej płatności
+        if (data === 'ok') {
+            alert('Tranzakcja przebiegła pomyślnie.');
+        } else if (data === 'nie') {
+            alert('Nieudana tranzakcja. Proszę dopisać numer mieszkania.');
+        } else {
+            alert('Nieznana odpowiedź od serwera.');
+        }
+    })
+    .catch(error => {
+        // Obsługa błędów
+        console.error('Błąd płatności:', error);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+export function addProductBox2(id, name, price, owner, buyer, imageUrl) {
   var quantity = 1;
   var totalPrice = price;
 
@@ -76,10 +143,10 @@ var productHTML = `
     priceElement.textContent = price.toFixed(2);
   counter++;
 
-  calculateTotal();
+ // calculateTotal();
 }
 
-function addProductBox3(id, name, price, owner, buyer, imageUrl) {
+export function addProductBox3(id, name, price, owner, buyer, imageUrl) {
   var quantity = 1;
   var totalPrice = price;
 
@@ -114,50 +181,201 @@ var productHTML = `
     priceElement.textContent = price.toFixed(2);
   counter++;
 
-  calculateTotal();
+  //calculateTotal();
 }
 
-function updateQuantity(counter, change, pricePerItem) {
-  var quantityInput = document.getElementById(`quantity-${counter}`);
-  var priceElement = document.getElementById(`price-${counter}`);
 
-  var quantity = parseInt(quantityInput.value);
-  var totalPrice = parseFloat(priceElement.textContent);
 
-  quantity += change;
-  totalPrice = quantity * pricePerItem;
-
-  quantityInput.value = quantity;
-  priceElement.textContent = totalPrice.toFixed(2);
-
-  calculateTotal();
-}
-
-function removeProduct(button, counter) {
+export function removeProduct(button, counter) {
   var cartItem = button.parentNode;
   cartItem.remove();
 
-  calculateTotal();
+  //calculateTotal();
 }
 
-function calculateTotal() {
-  var cartItems = document.querySelectorAll("#someElementId1 .cart-item");
-  var totalValue = 0;
+export function submitForm(e) {
+  const token = localStorage.getItem('token');
+  const form = document.querySelector('form'); 
+  const formData = new FormData(form); 
 
-  for (var i = 0; i < cartItems.length; i++) {
-    var priceElement = cartItems[i].querySelector(".price span");
-    var price = parseFloat(priceElement.textContent);
-    totalValue += price;
+  fetch('http://localhost:8080/add-item', {
+	'Authorization': `Bearer ${token}`,
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Request failed');
+      }
+    })
+    .then(data => {
+      console.log('Ogłoszenie zostało dodane:', data);
+      // Obsłuż odpowiedź od serwera, jeśli to konieczne
+    })
+    .catch(error => {
+      console.error('Błąd:', error);
+      // Obsłuż błąd
+    });
+}
+
+
+
+///////////////////////////////////////////////////////////////////
+export function sellerItems(isRequestMade) {
+
+  if (!isRequestMade) {
+  const token = localStorage.getItem('token'); 
+
+  fetch('http://localhost:8080/sellerItems', {
+    method: 'GET',
+    headers: {
+	  'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Request failed');
+    }
+  })
+  .then(data => {
+
+    console.log(data);
+
+    data.forEach(product => {
+      addProductBox(product.id, product.name, product.price, product.owner, product.buyer, product.imageUrl, "someElementId1");
+    });
+
+
+  })
+  .catch(error => {
+    alert('nie git');
+    console.error('Error:', error);
+  
+  });
   }
+}
+///////////////////////////////////////////////////////////////////
+export function buyerItems(isRequestMade) {
 
-  var totalValueElement = document.getElementById("total-value");
-  totalValueElement.textContent = totalValue.toFixed(2);
+  if (!isRequestMade) {
+  const token = localStorage.getItem('token'); 
 
-  var deliveryCost = 20.00;
-  var totalSum = totalValue + deliveryCost;
-  var totalSumElement = document.getElementById("total-sum");
-  totalSumElement.textContent = totalSum.toFixed(2);
+  fetch('http://localhost:8080/buyerItems', {
+    method: 'GET',
+    headers: {
+	  'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Request failed');
+    }
+  })
+  .then(data => {
+
+    console.log(data);
+
+    data.forEach(product => {
+      addProductBox(product.id, product.name, product.price, product.owner, product.buyer, product.imageUrl, "someElementId2");
+    });
+
+
+  })
+  .catch(error => {
+    alert('nie git');
+    console.error('Error:', error);
+  
+  });
+  }
 }
 
-// Wywołaj funkcję calculateTotal przy wczytaniu strony, aby początkowo obliczyć sumę
-window.addEventListener("load", calculateTotal);
+///////////////////////////////////////////////////////////////////
+
+
+export function expiredItems(isRequestMade) {
+
+  if (!isRequestMade) {
+  const token = localStorage.getItem('token'); 
+
+  fetch('http://localhost:8080/expiredItems', {
+    method: 'GET',
+    headers: {
+	  'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Request failed');
+    }
+  })
+  .then(data => {
+
+    console.log(data);
+
+    data.forEach(product => {
+      addProductBox(product.id, product.name, product.price, product.owner, product.buyer, product.imageUrl, "someElementId");
+    });
+
+
+  })
+  .catch(error => {
+    alert('nie git');
+    console.error('Error:', error);
+  
+  });
+  }
+}
+
+///////////////////////////////////////////////////////////////////
+export function useritems(isRequestMade) {
+
+  if (!isRequestMade) {
+  const token = localStorage.getItem('token'); 
+
+  fetch('http://localhost:8080/useritems', {
+    method: 'GET',
+    headers: {
+	  'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Request failed');
+    }
+  })
+  .then(data => {
+
+    console.log(data);
+
+    data.forEach(product => {
+      addProductBox(product.id, product.name, product.price, product.owner, product.buyer, product.imageUrl, "someElementId");
+    });
+
+
+  })
+  .catch(error => {
+    alert('nie git');
+    console.error('Error:', error);
+  
+  });
+  }
+}
+///////////////////////////////////////////////////////////////////

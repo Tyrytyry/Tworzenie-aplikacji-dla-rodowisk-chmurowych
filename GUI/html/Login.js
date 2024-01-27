@@ -6,10 +6,19 @@ import AukcjeDomowe from '../img/AukcjeDomowe.png';
 import dama from '../img/dama.png'; 
 import fotel from '../img/fotel.png'; 
 
+import { changeForm } from '../js/login';
+import { login } from '../js/login';
+import { register } from '../js/login';
+import { goToCustomPath } from '../js/login';
+
+import { generateRegisterPanel } from '../js/login';
+import { generateLoginPanel }from '../js/login';
+
+
 const LoginHTML = () => (
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head charset="UTF-8">
   <meta charset="UTF-8"/>
   <title>Title</title>
   <link rel="stylesheet" href="../css/login.css"/>
@@ -19,120 +28,223 @@ const LoginHTML = () => (
 <body id="home">
 <header class="header">
     <div class="leftt">
-        <a onclick="goToCustomPath('/login')">Zaloguj się!</a>
+        <a onClick={() => goToCustomPath('/login')}>Zaloguj się!</a>
     </div>
     <div class="RAJ container">
-        <a href="/home"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="300" height="100" /></a>
+			<a href="/"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="300" height="100" /></a>
         <nav>
             <ul class="menu">
-					<li><a class="menubutton" onclick="goToCustomPath('/category?category=Ubrania')" >Ubrania</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Meble')" >Meble</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Akcesoria')" >Akcesoria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Biżuteria)" >Biżuteria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/home')" >O nas</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
             </ul>
         </nav>
     </div>
     <div class="log">
         <a href="/basket"> <img src={wozekImage} alt="buttonpng" width="15" height="15" /></a>
-		<a href="/basket">0,00zł</a>
+        <a onClick={() =>goToCustomPath("/basket")}>0,00zł</a>
     </div>
 </header>
 <br/>
 <br/>
 <div class="centr">
-<div class="login-panel" id="loginPanel">
-  <div class="social-login">
-    <p>Lub zaloguj się za pomocą:</p>
-    <ul>
-      <li>
-        <a href="#" class="facebook-login">
-          Kontynuuj z Facebook
-        </a>
-      </li>
-      <li>
-        <a href="#" class="apple-login">
-          Kontynuuj z Apple
-        </a>
-      </li>
-      <li>
-        <a href="#" class="google-login black-text">
-          Kontynuuj z Google
-        </a>
-      </li>
-    </ul>
-  </div>
-  <h2>Zaloguj się</h2>
-  <form class="login-form" method="post" role="form" action="/login">
-    <div class="form-group mb-3">
-      <label class="control-label">Email</label>
-      <input type="text" id="email" name="email" class="form-control" placeholder="Enter email address" />
-    </div>
-    <div class="form-group mb-3">
-      <label class="control-label">Password</label>
-      <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" />
-    </div>
-    <div class="form-group mb-3">
-      <button type="submit" class="btn btn-primary" onclick="login(event)">Submit </button>
-    </div>
-  </form>
-  <br/>
-  <button class="lol" type="submit"onclick="changeForm()">ZAREJESTRUJ SIĘ DO RAJ ROŚLIN</button>
-</div>
 
 
-
-  <div class="login-panel" id="registerPanel" style={{ display: 'none' }}>
-
-    <div class="social-login">
-      <p>Lub zaloguj się za pomocą:</p>
-      <ul>
-        <li>
-          <a href="#" class="facebook-login">
-            Kontynuuj z Facebook
-          </a>
-        </li>
-        <li>
-          <a href="#" class="apple-login">
-            Kontynuuj z Apple
-          </a>
-        </li>
-        <li>
-          <a href="#" class="google-login black-text">
-            Kontynuuj z Google
-          </a>
-        </li>
-      </ul>
-    </div>
-    <h2>Załóż konto </h2>
-    <form method="post" role="form" action="/login/save" class="login-form">
-      <div class="form-group mb-3">
-        <label class="form-label">First Name</label>
-        <input class="form-control" id="firstName" name="firstName" placeholder="Enter first name"  type="text"/>
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="form-label">Last Name</label>
-        <input class="form-control" id="lastName" name="lastName" placeholder="Enter last name" type="text"/>
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="form-label">Email</label>
-        <input class="form-control" id="email1" name="email1" placeholder="Enter email address" type="email"/>
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="form-label">Password</label>
-        <input class="form-control" id="password1"  name="password1" placeholder="Enter password" type="password"/>
-      </div>
-      <div class="form-group mb-3">
-        <button type="submit" class="btn btn-primary" onclick="register(event)">Register </button>
-      </div>
-    </form>
+   
     <br/>
-    <button class="lol" type="submit" onclick="changeForm()" >MASZ KONTO SIĘ DO RAJ ROŚLIN?</button>
+    <br/>
+    <br/>
+    <br/>
+ 
+ 
+    <div>
+   
+    </div>
+
+       <div id="formContainer">
+
+
+    </div>
+      <div id="">
+
+    </div>
+	
+	
   </div>
-  </div>
+  
+  
+  
+  
+  
+  
+      <div class="login-panel" id="loginPanel">
+      <div class="social-login">
+        <p>Lub zaloguj się za pomocą:</p>
+        <ul>
+          <li>
+            <a href="#" class="facebook-login">
+              Kontynuuj z Facebook
+            </a>
+          </li>
+          <li>
+            <a href="#" class="apple-login">
+              Kontynuuj z Apple
+            </a>
+          </li>
+          <li>
+            <a href="#" class="google-login black-text">
+              Kontynuuj z Google
+            </a>
+          </li>
+        </ul>
+      </div>
+      <h2>Zaloguj się</h2>
+      <form class="login-form" onSubmit={(e) => login(e)}>
+        <div class="form-group mb-3">
+          <label class="control-label">Email</label>
+          <input type="text" id="email" name="email" class="form-control" placeholder="Enter email address" />
+        </div>
+        <div class="form-group mb-3">
+          <label class="control-label">Password</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" />
+        </div>
+        <div class="form-group mb-3">
+          <button  class="btn btn-primary" >Submit </button>
+        </div>
+      </form>
+      <br/>
+      <button class="lol" type="submit" onClick={() => changeForm()}>ZAREJESTRUJ SIĘ DO RAJ ROŚLIN</button>
+    </div>
+  
+  
+  
+  
+  
+  
+  
+      <br/>
+    <br/>
+  
+  
+  
+  
+  
+      <div class="login-panel" id="registerPanel" style={{ display: '' }}>
+      <div class="social-login">
+        <p>Lub zaloguj się za pomocą:</p>
+        <ul>
+          <li>
+            <a href="#" class="facebook-login">
+              Kontynuuj z Facebook
+            </a>
+          </li>
+          <li>
+            <a href="#" class="apple-login">
+              Kontynuuj z Apple
+            </a>
+          </li>
+          <li>
+            <a href="#" class="google-login black-text">
+              Kontynuuj z Google
+            </a>
+          </li>
+        </ul>
+      </div>
+      <h2>Załóż konto </h2>
+      <form method="post" role="form" class="login-form" onSubmit={(e) => register(e)}>
+        <div class="form-group mb-3">
+          <label class="form-label">First Name</label>
+          <input class="form-control" id="firstName" name="firstName" placeholder="Enter first name" type="text"/>
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Last Name</label>
+          <input class="form-control" id="lastName" name="lastName" placeholder="Enter last name" type="text"/>
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Email</label>
+          <input class="form-control" id="email1" name="email1" placeholder="Enter email address" type="email"/>
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Password</label>
+          <input class="form-control" id="password1" name="password1" placeholder="Enter password" type="password"/>
+        </div>
+        <div class="form-group mb-3">
+          <button type="submit" class="btn btn-primary" >Register </button>
+        </div>
+      </form>
+      <br/>
+      <button class="lol" type="submit" onClick={() => changeForm()} >MASZ KONTO SIĘ DO RAJ ROŚLIN?</button>
+    </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 <br/>
 <br/>
 

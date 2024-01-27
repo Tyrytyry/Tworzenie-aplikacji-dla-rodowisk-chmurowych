@@ -41,18 +41,18 @@ const payHTML = () => (
 <br/>
 <br/>
 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginRight: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Twój koszyk</p>
-  </div>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Dostawa i płatność</p>
-  </div>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginLeft: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Gotowe</p>
-  </div>
+    <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginRight: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Twój koszyk</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
+    <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Dostawa i płatność</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
+    <div style={{ backgroundColor: 'white', width: '200px', height: '10px', marginLeft: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Gotowe</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
 </div>
 <br/>
 <br/>

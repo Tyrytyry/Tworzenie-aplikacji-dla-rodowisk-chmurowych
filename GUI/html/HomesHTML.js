@@ -1,60 +1,71 @@
-import React from 'react';
+import React, {useEffect } from 'react';
 
 import '../css/home.css';
 import wozekImage from '../img/wozek.png'; 
 import AukcjeDomowe from '../img/AukcjeDomowe.png'; 
 import dama from '../img/dama.png'; 
 import fotel from '../img/fotel.png'; 
+import { goToCustomPath } from '../js/home';
+import { addProductBox } from '../js/home';
+import { showPanel } from '../js/home';
+import { hidePanel } from '../js/home';
+import { hello } from '../js/home';
+import { gethead } from '../js/home';
 
-const HomesHTML = () => (
+
+const HomesHTML = () => {
+
+  useEffect(() => {
+    gethead();
+  }, []);
+
+return (
 <html>
 <head>
-    <meta charset="UTF-8"/>
+	<meta charSet="UTF-8" />
     <title>Title</title>
     <link rel="stylesheet" href="../css/home.css"/>
     <script src="../js/home.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div>
-        <script>
-		{`
-            $(document).ready(function() {
-                addProductBox(4, 'Szafka RTV', '1590.29 zł.', 'produkty/półka.png');
-            });
-		`}
-        </script>
+
     </div>
 </head>
 <body id="home">
 <header class="header">
     <div class="leftt">
-        <a onclick="goToCustomPath('/login')">Zaloguj się!</a>
+        <a onClick={() => goToCustomPath('/login')}>Zaloguj się!</a>
     </div>
     <div class="RAJ container">
-        <a href="/home"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="300" height="100" /></a>
+        <a href="/"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="300" height="100" /></a>
         <nav>
             <ul class="menu">
-					<li><a class="menubutton" onclick="goToCustomPath('/category?category=Ubrania')" >Ubrania</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Meble')" >Meble</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Akcesoria')" >Akcesoria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Biżuteria)" >Biżuteria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/home')" >O nas</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
             </ul>
         </nav>
     </div>
     <div class="log">
         <a href="/basket"> <img src={wozekImage} alt="buttonpng" width="15" height="15" /></a>
-		<a onclick="/basket">0,00zł</a>
+        <a onClick={() =>goToCustomPath("/basket")}>0,00zł</a>
     </div>
 </header>
 <div class="produkt">
-    <button onclick="addProductBox(4, 'Szafka RTV', '1590.29 zł.', '../produkty/półka.png')">Dodaj produkt</button>
+    <button onClick={() =>onclick=addProductBox(1, 'Szafka RTV', '1590.29 zł.', '../produkty/półka.png')}>Dodaj produkt</button>
+	<button onClick={() =>onclick=hello()}>hello</button>
+
     <br/>
     <br/>
     <br/>
     <br/>
+
     <section id="someElementId" class="flexbox">
 
     </section>
+	
     <br/>
     <br/>
 
@@ -83,7 +94,7 @@ const HomesHTML = () => (
             <div class="card-footer">
                 <ul>
                     <li>
-                        <a href="/home"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="250" height="100"/></a>
+                <a href="/"> <img src={AukcjeDomowe} href="/" alt="Aukcje Domowe" width="250" height="100" /></a>
                     </li>
                     <li>
                         <p>
@@ -93,15 +104,16 @@ const HomesHTML = () => (
                 </ul>
                 <ul>
                     <li class="title-list">Informacje</li>
-					<li><a class="menubutton" onclick="goToCustomPath('/category?category=Ubrania')" >Ubrania</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Meble')" >Meble</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Akcesoria')" >Akcesoria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Biżuteria)" >Biżuteria</a></li>
+					<li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
+                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
+                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
+                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
+                    <li><a class="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
                 </ul>
                 <ul>
                     <li class="title-list">Moje Konto</li>
-					<li><a onclick="goToCustomPath('/login')">Zaloguj</a></li>
-                    <li><a onclick="goToCustomPath('/login')">Założ konto</a></li>
+					<li><a onClick={() =>goToCustomPath('/login')}>Zaloguj</a></li>
+                    <li><a onClick={() =>goToCustomPath('/login')}>Założ konto</a></li>
                 </ul>
                 <ul class="shops">
                     <li class="title-list ">Kontakt</li>
@@ -121,4 +133,5 @@ const HomesHTML = () => (
 	</body>
 </html>
 );
+}
 export default HomesHTML;

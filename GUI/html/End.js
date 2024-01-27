@@ -4,7 +4,13 @@ import wozekImage from '../img/wozek.png';
 import AukcjeDomowe from '../img/AukcjeDomowe.png'; 
 import dama from '../img/dama.png'; 
 import fotel from '../img/fotel.png'; 
-
+import { goToCustomPath } from '../js/basket';
+import { addProductBox } from '../js/basket';
+import { addProductBox2 } from '../js/basket';
+import { addProductBox3 } from '../js/basket';
+import { removeProduct } from '../js/basket';
+import { calculateTotal } from '../js/basket';
+import { showAlert } from '../js/basket';
 const EndHTML = () => (
 <html>
 <head>
@@ -17,23 +23,23 @@ const EndHTML = () => (
 <body id="home">
 <header class="header">
     <div class="leftt">
-        <a onclick="goToCustomPath('/login')">Zaloguj się!</a>
+        <a onClick={() => goToCustomPath('/login')}>Zaloguj się!</a>
     </div>
     <div class="RAJ container">
         <a href="/home"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="300" height="100" /></a>
         <nav>
             <ul class="menu">
-					<li><a class="menubutton" onclick="goToCustomPath('/category?category=Ubrania')" >Ubrania</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Meble')" >Meble</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Akcesoria')" >Akcesoria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Biżuteria)" >Biżuteria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/home')" >O nas</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
+                <li><a class="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
             </ul>
         </nav>
     </div>
     <div class="log">
         <a href="/basket"> <img src={wozekImage} alt="buttonpng" width="15" height="15" /></a>
-		<a onclick="/basket">0,00zł</a>
+        <a onClick={() =>goToCustomPath("/basket")}>0,00zł</a>
     </div>
 </header>
 
@@ -41,18 +47,18 @@ const EndHTML = () => (
 <br/>
 <br/>
 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginRight: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Twój koszyk</p>
-  </div>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Dostawa i płatność</p>
-  </div>
-  <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginLeft: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
-    <p><br/></p>
-    <p>Gotowe</p>
-  </div>
+    <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginRight: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Twój koszyk</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
+    <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Dostawa i płatność</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
+    <div style={{ backgroundColor: '#35A194', width: '200px', height: '10px', marginLeft: '1cm', borderRadius: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ marginBottom: '0', fontSize: '10px' }}>Gotowe</p>
+        <p style={{ marginTop: '0', fontSize: '10px' }}><br /></p>
+    </div>
 </div>
 <br/>
 <br/>
@@ -81,15 +87,16 @@ const EndHTML = () => (
       </ul>
       <ul>
         <li class="title-list">Informacje</li>
-					<li><a class="menubutton" onclick="goToCustomPath('/category?category=Ubrania')" >Ubrania</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Meble')" >Meble</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Akcesoria')" >Akcesoria</a></li>
-                    <li><a class="menubutton" onclick="goToCustomPath('/category?category=Biżuteria)" >Biżuteria</a></li>
+					<li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
+                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
+                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
+                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
+                    <li><a class="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
       </ul>
       <ul>
         <li class="title-list">Moje Konto</li>
-					<li><a onclick="goToCustomPath('/login')">Zaloguj</a></li>
-                    <li><a onclick="goToCustomPath('/login')">Założ konto</a></li>
+					<li><a onClick={() =>goToCustomPath('/login')}>Zaloguj</a></li>
+                    <li><a onClick={() =>goToCustomPath('/login')}>Założ konto</a></li>
       </ul>
       <ul class="shops">
         <li class="title-list ">Kontakt</li>
