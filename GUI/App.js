@@ -42,6 +42,7 @@ const App = () => (
 
 		<Route path="/" element={<HomesHTML />} />
 		<Route path="/additem" element={<AdditemHTML />} />
+		<Route path="/add-item" element={<AdditemHTML />} />
 		<Route path="/basket" element={<BasketHTML />} />
 		<Route path="/category" element={<CategoryHTML />} />
 		<Route path="/end" element={<EndHTML />} />
