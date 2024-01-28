@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 
 import '../css/home.css';
 import wozekImage from '../img/wozek.png'; 
@@ -11,12 +11,25 @@ import { showPanel } from '../js/home';
 import { hidePanel } from '../js/home';
 import { hello } from '../js/home';
 import { gethead } from '../js/home';
-
+import generatePanel from './generatePanel';
 
 const HomesHTML = () => {
 
+ const [itemsData, setItemsData] = useState([]);
+
   useEffect(() => {
-    gethead();
+    const fetchData = async () => {
+      try {
+        const data = await gethead();
+        setItemsData(data);
+        console.log(data);
+      } catch (error) {
+        alert('BLAD pobierania danych');
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
 return (
@@ -32,28 +45,28 @@ return (
     </div>
 </head>
 <body id="home">
-<header class="header">
-    <div class="leftt">
+<header className="header">
+    <div className="leftt">
         <a onClick={() => goToCustomPath('/login')}>Zaloguj się!</a>
     </div>
-    <div class="RAJ container">
+    <div className="RAJ container">
         <a href="/"> <img src={AukcjeDomowe} alt="Aukcje Domowe" width="300" height="100" /></a>
         <nav>
-            <ul class="menu">
-                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
-                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
-                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
-                <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
-                <li><a class="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
+            <ul className="menu">
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
+                <li><a className="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
             </ul>
         </nav>
     </div>
-    <div class="log">
+    <div className="log">
         <a href="/basket"> <img src={wozekImage} alt="buttonpng" width="15" height="15" /></a>
         <a onClick={() =>goToCustomPath("/basket")}>0,00zł</a>
     </div>
 </header>
-<div class="produkt">
+<div className="produkt">
     <button onClick={() =>onclick=addProductBox(1, 'Szafka RTV', '1590.29 zł.', '../produkty/półka.png')}>Dodaj produkt</button>
 	<button onClick={() =>onclick=hello()}>hello</button>
 
@@ -62,18 +75,24 @@ return (
     <br/>
     <br/>
 
-    <section id="someElementId" class="flexbox">
+    <section id="someElementId" className="flexbox">
+   
 
+      {itemsData.map((item) => generatePanel(item))}
+    
     </section>
+	
+
+
 	
     <br/>
     <br/>
 
-    <div class="rounded-container">
-        <div class="image-container">
+    <div className="rounded-container">
+        <div className="image-container">
             <img src={fotel} alt="Zdjęcie" style={{ width: '60%', height: 'auto' }} />
         </div>
-        <div class="text-container">
+        <div className="text-container">
             <p>Fotel RED STYLE to stylowy i wygodny mebel, <br/>
                 który wspaniale wpasuje się w każde wnętrze <br/>
                 urządzone w stylu retro, vintage lub boho. <br/>
@@ -89,9 +108,9 @@ return (
     <br/>
     <br/>
 	</div>
-    <header class="header">
-        <footer class="footer">
-            <div class="card-footer">
+    <header className="header">
+        <footer className="footer">
+            <div className="card-footer">
                 <ul>
                     <li>
                 <a href="/"> <img src={AukcjeDomowe} href="/" alt="Aukcje Domowe" width="250" height="100" /></a>
@@ -103,20 +122,20 @@ return (
                     </li>
                 </ul>
                 <ul>
-                    <li class="title-list">Informacje</li>
-					<li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
-                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
-                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
-                    <li><a class="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
-                    <li><a class="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
+                    <li className="title-list">Informacje</li>
+					<li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Ubrania')} >Ubrania</a></li>
+                    <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Meble')} >Meble</a></li>
+                    <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Akcesoria')} >Akcesoria</a></li>
+                    <li><a className="menubutton" onClick={() =>goToCustomPath('/category?category=Biżuteria')} >Biżuteria</a></li>
+                    <li><a className="menubutton" onClick={() =>goToCustomPath('/')} >O nas</a></li>
                 </ul>
                 <ul>
-                    <li class="title-list">Moje Konto</li>
+                    <li className="title-list">Moje Konto</li>
 					<li><a onClick={() =>goToCustomPath('/login')}>Zaloguj</a></li>
                     <li><a onClick={() =>goToCustomPath('/login')}>Założ konto</a></li>
                 </ul>
-                <ul class="shops">
-                    <li class="title-list ">Kontakt</li>
+                <ul className="shops">
+                    <li className="title-list ">Kontakt</li>
                     <li>hello@aukcjedomowe.pl</li>
                     <li>Ul.pokoju243  <br/>
                         31-567 Kraków</li>
@@ -124,7 +143,7 @@ return (
                     <li>Odwiedź nas:</li>
                 </ul>
             </div>
-            <p class="by-name">
+            <p className="by-name">
                 &copy; Prawa autorskie 2023 Aukcje Domowe Wszelkie prawa zastrzeżone.
             </p>
         </footer>

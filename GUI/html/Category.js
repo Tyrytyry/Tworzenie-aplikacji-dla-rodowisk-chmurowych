@@ -1,5 +1,5 @@
 // src/components/AboutHTML.js
-import React, {useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 import wozekImage from '../img/wozek.png'; 
 import AukcjeDomowe from '../img/AukcjeDomowe.png'; 
 import dama from '../img/dama.png'; 
@@ -12,15 +12,49 @@ import { addProductBox } from '../js/home';
 import { showPanel } from '../js/home';
 import { hidePanel } from '../js/home';
 import { getcategory } from '../js/home';
-
-
+import generatePanel from './generatePanel';
+import {  } from '../js/home';
 
 
 const CategoryHTML = () => {
 
+ const [itemsData, setItemsData] = useState([]);
+
   useEffect(() => {
-    getcategory();
+    const fetchData = async () => {
+      try {
+        const data = await getcategory();
+        setItemsData(data);
+        console.log(data);
+      } catch (error) {
+        alert('BLAD pobierania danych');
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
   }, []);
+
+
+
+
+
+
+const handleUpdateItem = (id, sum) => {
+  // Tutaj implementuj logikę aktualizacji przedmiotu
+  console.log(`Aktualizacja przedmiotu o ID ${id} z sumą ${sum}`);
+};
+
+{itemsData.map(item => (
+  <generatePanel
+    key={item.id}
+    id={item.id}
+    imageUrl={item.imageUrl}
+    name={item.name}
+    price={item.price}
+    updateItem={handleUpdateItem}
+  />
+))}
 
 return (
 <html>
@@ -30,14 +64,7 @@ return (
     <link rel="stylesheet" href="../css/home.css"/>
     <script src="../js/home.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-	{`
-        $(document).ready(function() {
-            addProductBox(
-            );
-        });
-	`}
-    </script>
+
 </head>
 <body id="home">
     <header class="header">
@@ -64,7 +91,7 @@ return (
 <button type="button" onClick={() =>onclick=getcategory()}>getcategory</button>
     <div class="produkt">
         <section id="someElementId" class="flexbox">
-
+     {itemsData.map((item) => generatePanel(item))}
         </section>
     </div>
     <br/>

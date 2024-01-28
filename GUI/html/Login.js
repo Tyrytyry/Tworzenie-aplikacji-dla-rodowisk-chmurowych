@@ -1,5 +1,5 @@
 // src/components/AboutHTML.js
-import React from 'react';
+import React, { useState } from 'react';
 import '../css/login.css';
 import wozekImage from '../img/wozek.png'; 
 import AukcjeDomowe from '../img/AukcjeDomowe.png'; 
@@ -12,11 +12,18 @@ import { register } from '../js/login';
 import { goToCustomPath } from '../js/login';
 
 import { generateRegisterPanel } from '../js/login';
-import { generateLoginPanel }from '../js/login';
+import { generateloginrPanel }from '../js/login';
 
 
-const LoginHTML = () => (
+const LoginHTML = () => {
 
+  const [isFirstPanelVisible, setIsFirstPanelVisible] = useState(true);
+
+  const handleButtonClick = () => {
+    setIsFirstPanelVisible((prevValue) => !prevValue);
+  };
+
+return (
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head charset="UTF-8">
   <meta charset="UTF-8"/>
@@ -51,34 +58,9 @@ const LoginHTML = () => (
 <br/>
 <div class="centr">
 
-
-   
-    <br/>
-    <br/>
-    <br/>
-    <br/>
- 
- 
     <div>
-   
-    </div>
 
-       <div id="formContainer">
-
-
-    </div>
-      <div id="">
-
-    </div>
-	
-	
-  </div>
-  
-  
-  
-  
-  
-  
+      {isFirstPanelVisible ? (
       <div class="login-panel" id="loginPanel">
       <div class="social-login">
         <p>Lub zaloguj się za pomocą:</p>
@@ -115,22 +97,9 @@ const LoginHTML = () => (
         </div>
       </form>
       <br/>
-      <button class="lol" type="submit" onClick={() => changeForm()}>ZAREJESTRUJ SIĘ DO RAJ ROŚLIN</button>
+      <button class="lol" type="submit" onClick={() => handleButtonClick()}>ZAREJESTRUJ SIĘ DO RAJ ROŚLIN</button>
     </div>
-  
-  
-  
-  
-  
-  
-  
-      <br/>
-    <br/>
-  
-  
-  
-  
-  
+      ) : (
       <div class="login-panel" id="registerPanel" style={{ display: '' }}>
       <div class="social-login">
         <p>Lub zaloguj się za pomocą:</p>
@@ -175,76 +144,19 @@ const LoginHTML = () => (
         </div>
       </form>
       <br/>
-      <button class="lol" type="submit" onClick={() => changeForm()} >MASZ KONTO SIĘ DO RAJ ROŚLIN?</button>
+      <button class="lol" type="submit" onClick={() => handleButtonClick()} >MASZ KONTO SIĘ DO RAJ ROŚLIN?</button>
     </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+      )}
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+  </div>
+  
+<br/>
+<br/>
 <br/>
 <br/>
 
@@ -296,5 +208,6 @@ const LoginHTML = () => (
 
 </html>
 );
+}
 export default LoginHTML;
 

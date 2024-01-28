@@ -5,49 +5,36 @@
         }
 
 
+export function updateItem(id, price) {
 
+  const token = localStorage.getItem('token');
 
+  const formData = new FormData();
+  formData.append('id', id);
+  formData.append('price', price);
 
-
-
-
-
-
-function updateItem(id, price) {
-
-    const token = localStorage.getItem('token');
-
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('price', price);
-
-
-    fetch('http://localhost:8080/updateItem', {
-        method: 'POST',
-        body: formData,
-	    headers: {
-	  'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-    })
+  return fetch('http://localhost:8080/updateItem', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Błąd podczas aktualizacji przedmiotu');
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error('Błąd podczas aktualizacji przedmiotu');
+      }
+      return response.json();
     })
     .then(data => {
-        console.log('Aktualizacja udana:', data);
+      console.log('Aktualizacja udana:', data);
+      return data; 
     })
     .catch(error => {
-        console.error('Błąd aktualizacji:', error);
+      console.error('Błąd aktualizacji:', error);
+      throw error; 
     });
 }
-
-
-
-
-
 
 
 
@@ -155,46 +142,31 @@ const token = localStorage.getItem('token'); // Pobierz token z localStorage
   });
 }
 
-export function gethead(isRequestMade) {
+export function gethead() {
+  const token = localStorage.getItem('token');
 
-  if (!isRequestMade) {
-  const token = localStorage.getItem('token'); 
-
-  fetch('http://localhost:8080/category?category=head', {
+  return fetch('http://localhost:8080/category?category=head', {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
-
-    }
+      'Content-Type': 'application/json',
+    },
   })
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Request failed');
-    }
-  })
-  .then(data => {
-
-    console.log(data);
-
-    data.forEach(product => {
-      addProductBox(product.id, product.name, product.price, product.imageUrl);
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Request failed');
+      }
+    })
+    .catch(error => {
+      alert('nie git');
+      console.error('Error:', error);
     });
-
-
-  })
-  .catch(error => {
-    alert('nie git');
-    console.error('Error:', error);
-  
-  });
-  }
 }
 
 
-export function getcategory(isRequestMade) {
-  if (!isRequestMade) {
+export function getcategory() {
+
     const urlSearchParams = new URLSearchParams(window.location.search);
     const categoryValue = urlSearchParams.get('category');
 
@@ -205,29 +177,22 @@ export function getcategory(isRequestMade) {
 
     const token = localStorage.getItem('token');
 
-    fetch(`http://localhost:8080/category?category=${categoryValue}`, {
+    return fetch(`http://localhost:8080/category?category=${categoryValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Request failed');
-        }
-      })
-      .then(data => {
-        console.log(data);
-
-        data.forEach(product => {
-          addProductBox(product.id, product.name, product.price, product.imageUrl);
-        });
-      })
-      .catch(error => {
-        alert('nie git');
-        console.error('Error:', error);
-      });
-  }
+     .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Request failed');
+      }
+    })
+    .catch(error => {
+      alert('nie git');
+      console.error('Error:', error);
+    });
+  
 }

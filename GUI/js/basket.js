@@ -49,15 +49,16 @@ var productHTML = `
 
 
 
+
 export function submitPayment() {
-    // Pobierz dane z formularza
+
 	const ID = document.getElementById('ID').value;
     const ccNumber = document.getElementById('ccNumber').value;
     const ccExpiration = document.getElementById('ccExpiration').value;
     const ccCVV = document.getElementById('ccCVV').value;
     const token = localStorage.getItem('token');
 
-    // Sprawdź, czy wszystkie pola są wypełnione
+
     if (!ccNumber || !ccExpiration || !ccCVV) {
         alert('Wszystkie pola muszą być wypełnione.');
         return;
@@ -87,7 +88,6 @@ export function submitPayment() {
         return response.text();
     })
     .then(data => {
-        // Obsługa odpowiedzi z serwera po udanej płatności
         if (data === 'ok') {
             alert('Tranzakcja przebiegła pomyślnie.');
         } else if (data === 'nie') {
@@ -199,24 +199,28 @@ export function submitForm(e) {
   const formData = new FormData(form); 
 
   fetch('http://localhost:8080/add-item', {
-	'Authorization': `Bearer ${token}`,
     method: 'POST',
     body: formData,
+	headers: {
+            'Authorization': `Bearer ${token}`
+        },
   })
     .then(response => {
-      if (response.ok) {
+      if (response.text) {
+		              alert('');
         return response.json();
       } else {
+		              alert('');
         throw new Error('Request failed');
       }
     })
     .then(data => {
       console.log('Ogłoszenie zostało dodane:', data);
-      // Obsłuż odpowiedź od serwera, jeśli to konieczne
+                  alert('');
     })
     .catch(error => {
       console.error('Błąd:', error);
-      // Obsłuż błąd
+     alert('');
     });
 }
 
@@ -225,40 +229,28 @@ export function submitForm(e) {
 ///////////////////////////////////////////////////////////////////
 export function sellerItems(isRequestMade) {
 
-  if (!isRequestMade) {
+
   const token = localStorage.getItem('token'); 
 
-  fetch('http://localhost:8080/sellerItems', {
+  return fetch('http://localhost:8080/sellerItems', {
     method: 'GET',
     headers: {
 	  'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
-
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Request failed');
-    }
-  })
-  .then(data => {
-
-    console.log(data);
-
-    data.forEach(product => {
-      addProductBox(product.id, product.name, product.price, product.owner, product.buyer, product.imageUrl, "someElementId1");
+     }
+    })
+     .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Request failed');
+      }
+    })
+    .catch(error => {
+      alert('nie git');
+      console.error('Error:', error);
     });
-
-
-  })
-  .catch(error => {
-    alert('nie git');
-    console.error('Error:', error);
   
-  });
-  }
 }
 ///////////////////////////////////////////////////////////////////
 export function buyerItems(isRequestMade) {
@@ -302,80 +294,56 @@ export function buyerItems(isRequestMade) {
 ///////////////////////////////////////////////////////////////////
 
 
-export function expiredItems(isRequestMade) {
+export function expiredItems() {
 
-  if (!isRequestMade) {
+
   const token = localStorage.getItem('token'); 
 
-  fetch('http://localhost:8080/expiredItems', {
+  return fetch('http://localhost:8080/expiredItems', {
     method: 'GET',
     headers: {
 	  'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
-
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Request failed');
-    }
-  })
-  .then(data => {
-
-    console.log(data);
-
-    data.forEach(product => {
-      addProductBox(product.id, product.name, product.price, product.owner, product.buyer, product.imageUrl, "someElementId");
+     }
+    })
+     .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Request failed');
+      }
+    })
+    .catch(error => {
+      alert('nie git');
+      console.error('Error:', error);
     });
-
-
-  })
-  .catch(error => {
-    alert('nie git');
-    console.error('Error:', error);
   
-  });
-  }
 }
 
 ///////////////////////////////////////////////////////////////////
-export function useritems(isRequestMade) {
+export function useritems() {
 
-  if (!isRequestMade) {
+
   const token = localStorage.getItem('token'); 
 
-  fetch('http://localhost:8080/useritems', {
+    return fetch('http://localhost:8080/useritems', {
     method: 'GET',
     headers: {
 	  'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
-
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Request failed');
-    }
-  })
-  .then(data => {
-
-    console.log(data);
-
-    data.forEach(product => {
-      addProductBox(product.id, product.name, product.price, product.owner, product.buyer, product.imageUrl, "someElementId");
+     }
+    })
+     .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Request failed');
+      }
+    })
+    .catch(error => {
+      alert('nie git');
+      console.error('Error:', error);
     });
-
-
-  })
-  .catch(error => {
-    alert('nie git');
-    console.error('Error:', error);
   
-  });
-  }
 }
 ///////////////////////////////////////////////////////////////////

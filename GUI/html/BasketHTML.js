@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 import '../css/basket.css';
 import wozekImage from '../img/wozek.png'; 
 import AukcjeDomowe from '../img/AukcjeDomowe.png'; 
@@ -11,30 +11,59 @@ import { addProductBox3 } from '../js/basket';
 import { removeProduct } from '../js/basket';
 import { calculateTotal } from '../js/basket';
 import { showAlert } from '../js/basket';
+import { updateItem } from '../js/home';
 
-import { useritems } from '../js/basket';
-import { expiredItems } from '../js/basket';
+import { expiredItems, useritems } from '../js/basket';
 import { buyerItems } from '../js/basket';
 import { sellerItems } from '../js/basket';
+import GeneratePanelBasket from './GeneratePanelBasket';
+import GeneratePanelBasket2 from './GeneratePanelBasket2';
 
 const BasketHTML = () => {
+  const [itemsData, setItemsData] = useState([]);
+  const [itemsData2, setItemsData2] = useState([]);
 
-function YourComponent() {
-  const handleMultiButtonClick = () => {
-    // Tutaj umieść logikę wywoływania funkcji
-    sellerItems();
-    buyerItems();
-    useritems();
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const expiredData = await expiredItems();
+        const userData = await useritems();
 
-  return (
-    <div>
-      <button type="button" onClick={handleMultiButtonClick}>
-        Wywołaj wszystkie funkcje
-      </button>
-    </div>
-  );
-}
+        // Sprawdzamy, czy tablica istnieje przed próbą iteracji
+        const combinedData = (expiredData || []).concat(userData || []);
+
+        setItemsData(combinedData);
+        console.log(combinedData);
+      } catch (error) {
+        alert('BLAD pobierania danych');
+        console.error('Error:', error);
+      }
+    };
+
+    const fetchData2 = async () => {
+      try {
+        const data = await sellerItems();
+        setItemsData2(data);
+        console.log(data);
+      } catch (error) {
+        alert('BLAD pobierania danych');
+        console.error('Error:', error);
+      }
+    };
+
+    const fetchData3 = async () => {
+      try {
+        await buyerItems();
+      } catch (error) {
+        alert('BLAD pobierania danych');
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
+    fetchData2();
+    fetchData3();
+  }, []);
 
 
 return (
@@ -91,10 +120,15 @@ return (
 <br/>
 <br/>
 
-<YourComponent />
+
 <div className="containerrr">
     <div id="someElementId" className="left">
         {/* zawartość koszyka */}
+    <div>
+      {itemsData && itemsData.map((item) => (
+        <GeneratePanelBasket key={item.id} product={item} updateItem={updateItem} />
+      ))}
+    </div>
     </div>
     <div className="right">
         <h2>Aktywne Aukcje</h2>
@@ -104,7 +138,9 @@ return (
 <br/>
 <div className="containerrr">
     <div id="someElementId1" className="left">
-        {/* zawartość koszyka */}
+      {itemsData2 && itemsData2.map((item) => (
+        <GeneratePanelBasket2 key={item.id} product={item} updateItem={updateItem} />
+      ))}
     </div>
     <div className="right">
         <h2>Zakończone Aukcje</h2>
