@@ -19,7 +19,7 @@ COPY html/* /app/react-router-app/src/components/html/
 COPY css/* /app/react-router-app/src/components/css/
 COPY js/* /app/react-router-app/src/components/js/
 COPY img/* /app/react-router-app/src/components/img/
-
+COPY index.js /app/react-router-app/src/index.js
 RUN npm install
 
 
