@@ -23,7 +23,7 @@ const App = () => (
 
             <Link to="/basket">basket </Link>
 
-            <Link to="/category">category </Link>
+            <Link to="/category?category=Akcesoria">category </Link>
 
             <Link to="/end">end </Link>
 
