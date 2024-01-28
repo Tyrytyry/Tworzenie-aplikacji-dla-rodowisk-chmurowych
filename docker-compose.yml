@@ -31,7 +31,7 @@ services:
     build: ./GUI
     container_name: chmury
     ports:
-      - "8081:80"
+      - "8081:3000"
     networks:
       - rest
 
