@@ -58,6 +58,7 @@ public class ItemController {
 
     private static final String UPLOAD_DIR = "/home/tyrytyry/obszarRoboczy/Tworzenie-aplikacji-dla-rodowisk-chmurowych";
 
+    @CrossOrigin
     @PostMapping("/add-item")
     public String createItem(@ModelAttribute("item") Item item,
      //                        @RequestParam("image") MultipartFile file,
@@ -104,6 +105,7 @@ public class ItemController {
 
 
     ////// przenieść większość funkcji do service
+    @CrossOrigin
     @PostMapping("/updateItem")
     public String updateItem(@RequestBody Map<String, String> requestParams) {
         Long itemId = Long.parseLong(requestParams.get("itemId"));
@@ -111,6 +113,7 @@ public class ItemController {
         Item item = itemService.getItemById(itemId);
         String owner = item.getOwner();
         String buyer = item.getBuyer();
+        System.out.println("sum:"+ sum + "ID"+ itemId);
         /////////////////// testy
         String oldbuyer = item.getBuyer();
         /////////////////// testy
@@ -119,26 +122,41 @@ public class ItemController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LocalDateTime currentTime = LocalDateTime.now();
         String username = authentication.getName();
+        System.out.println("sum:"+ sum + "ID"+ itemId + username);
         if (sum > currentPrice && !username.equals(owner) && !username.equals(buyer) && currentTime.isBefore(itemTime)) {
             item.setPrice(sum);
             item.setBuyer(username);
             itemService.updateItem(item);
 
         } else {
-            return "no";
+
+            if(username.equals(owner))
+            return "to twoja oferta";
+
+            if(sum <= currentPrice)
+                return "za mała suma";
+
+            if(username.equals(buyer))
+                return "jesteś ostatnim licytującym";
+
+            return " nwm";
         }
+        try{
         /////////////////// testy
         User user = userRepository.findByEmail(oldbuyer);
         userService.addItemToUser(user.getId(), itemId);
-        /////////////////// testy
+    } catch (Exception e) {
+
+    }
         return "ok";
     }
 
 
+    @CrossOrigin
     @GetMapping("/category")
     public List<Item> getProductByCategory(@RequestParam("category") String category) {
-
-        if(category == "head")
+        System.out.println("funkcja category " + category);
+        if("head".equals(category))
         {
             List<Item> allItems = basketService.getAllItems();
             List<Item> filteredProducts = filterProductsHead(allItems, category);

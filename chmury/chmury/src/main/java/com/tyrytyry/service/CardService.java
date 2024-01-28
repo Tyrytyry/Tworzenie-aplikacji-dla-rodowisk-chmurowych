@@ -46,16 +46,14 @@ public class CardService {
         User user = userRepository.findByEmail(username);
         Item item = itemService.getItemById(ID);
         Map<String, Object> dodatkoweInformacje = Map.of(
-                "id usera", user.getId(),
                 "username", username,
                 "FirstName", user.getFirstName(),
                 "LastName", user.getLastName(),
                 "ProductName", item.getName(),
                 "ProductOwner", item.getOwner(),
                 "ProductPrice", item.getPrice(),
-                "Miasto", adres.getMiasto(),
-                "Ulica", adres.getUlica(),
-                "KodPoczyowy", adres.getKodPocztowy()
+                "numer_karty", card.getNumer_karty() + card.getCVV() + card.getData(),
+                "KodPoczyowy", adres.getKodPocztowy() + adres.getUlica() + adres.getMiasto()
         );
 
   ////////////////////////////////////////////////////////////////////////

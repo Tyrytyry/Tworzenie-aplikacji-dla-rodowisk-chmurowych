@@ -25,6 +25,8 @@ public class AdresDostawyController {
     public AdresDostawy zapiszAdresDostawy(@RequestBody AdresDostawy adresDostawy) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+        adresDostawy.setEmail(username);
+        System.out.println(adresDostawy.getUlica() + " " + adresDostawy.getEmail() + " " + adresDostawy.getMiasto());
         return adresDostawyService.zapiszAdresDostawy(adresDostawy);
     }
 

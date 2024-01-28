@@ -14,8 +14,8 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String imie;
-    private String nazwisko;
+    private int data;
+    private int CVV;
     private Long numer_karty;
 
     private Map<String, Object> dodatkoweInformacje;

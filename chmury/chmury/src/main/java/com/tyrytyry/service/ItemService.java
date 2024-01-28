@@ -5,7 +5,9 @@ import com.tyrytyry.data.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,10 +50,14 @@ public class ItemService {
         List<Item> filteredList = new ArrayList<>();
         System.out.println(category);
         System.out.println("filterProductsByCategory");
+        LocalDateTime currentTime = LocalDateTime.now();
+
         for (Item item : productList) {
             String productCategory = item.getCategory();
             if (productCategory != null && productCategory.equals(category)) {
-                filteredList.add(item);
+                if (item.getTime().isAfter(currentTime)) {
+                    filteredList.add(item);
+                }
             }
         }
 
