@@ -13,8 +13,8 @@
   2. Zbuduj obraz Docker wykorzystująć następującą komendę: docker-compose build
 
 4. Uruchomienie projektu
-  1. Upewnić się, że plik docker-compose.yml jest obecny w katalogu projektu.
-  2. W terminalu, w katalogu projektu, uruchamiamy następującą komendę: 
+  a) Upewnić się, że plik docker-compose.yml jest obecny w katalogu projektu.
+  b) W terminalu, w katalogu projektu, uruchamiamy następującą komendę: 
   docker-compose up -d 
   Dodajemy "-d" aby uruchomić w tle.
 
